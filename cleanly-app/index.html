@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cleanly</title>
+  <style>
+    body { font-family: system-ui, Arial; max-width: 800px; margin: 40px auto; padding: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    button { padding: 10px 14px; cursor: pointer; }
+    input[type="file"] { padding: 8px; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .pill { border: 1px solid #ccc; border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+    .muted { color: #666; }
+  </style>
+</head>
+<body>
+
+<h1>Cleanly AI</h1>
+
+<div class="card">
+  <div class="row">
+    <button id="loginBtn">Sign in with Google</button>
+    <button id="logoutBtn" style="display:none;">Log out</button>
+    <span id="userInfo" class="muted"></span>
+  </div>
+</div>
+
+<div class="card" id="app" style="display:none;">
+  <h2>Upload CSV</h2>
+  <div class="row">
+    <input type="file" id="fileInput" accept=".csv" />
+    <button id="uploadBtn">Upload</button>
+  </div>
+  <p id="msg" class="muted"></p>
+
+  <h2>My Uploads</h2>
+
+<div class="row" style="margin:10px 0;">
+  <select id="sortSelect" style="padding:8px; border-radius:10px;">
+    <option value="newest" selected>Newest first</option>
+    <option value="oldest">Oldest first</option>
+    <option value="name">File name (A–Z)</option>
+  </select>
+</div>
+
+<div id="list"></div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
