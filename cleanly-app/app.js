@@ -15,11 +15,18 @@ const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("uploadBtn");
 const msg = document.getElementById("msg");
 const list = document.getElementById("list");
+const LIMITS = {
+  trial:   { filesPerMonth: 3,  maxBytes: 2 * 1024 * 1024 },   // trial: 3 files, 2MB
+  starter: { filesPerMonth: 10, maxBytes: 5 * 1024 * 1024 },   // 5MB
+  growth:  { filesPerMonth: 50, maxBytes: 25 * 1024 * 1024 },  // 25MB
+  pro:     { filesPerMonth: 999999, maxBytes: 100 * 1024 * 1024 } // 100MB
+};
 const sortSelect = document.getElementById("sortSelect");
 if (sortSelect) {
   sortSelect.addEventListener("change", () => loadUploads());
 }
 
+let currentProfile = null;
 
 async function refreshUI() {
   const { data: { user }, error } = await client.auth.getUser();
@@ -47,6 +54,15 @@ async function refreshUI() {
   if (up.error) {
     console.warn("profiles upsert failed:", up.error.message);
   }
+  
+  //  FETCH profile and store globally
+  const prof = await client
+    .from("profiles")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  currentProfile = prof.data || null;
 
   await loadUploads();
 }
@@ -88,6 +104,55 @@ uploadBtn.addEventListener("click", async () => {
     msg.textContent = "Please sign in first.";
     return;
   }
+  
+  // ---- PLAN + LIMIT ENFORCEMENT (PASTE HERE) ----
+
+// Load profile if not available
+if (!currentProfile) {
+  const prof = await client.from("profiles").select("*").eq("user_id", user.id).single();
+  currentProfile = prof.data || null;
+}
+
+const plan = (currentProfile?.plan || "trial").toLowerCase();
+const status = (currentProfile?.status || "inactive").toLowerCase();
+
+// Gate access
+const canUse = (status === "active" || status === "trialing");
+if (!canUse) {
+  msg.textContent = "Please subscribe to use Cleanly.";
+  return;
+}
+
+const limits = LIMITS[plan] || LIMITS.trial;
+
+// Enforce file size
+if (file.size > limits.maxBytes) {
+  msg.textContent = `File too large for your plan. Max ${Math.round(limits.maxBytes / 1024 / 1024)}MB.`;
+  return;
+}
+
+// Enforce monthly file count (by counting uploads in DB for this user this month)
+const startOfMonth = new Date();
+startOfMonth.setUTCDate(1);
+startOfMonth.setUTCHours(0, 0, 0, 0);
+
+const { count, error: countErr } = await client
+  .from("uploads")
+  .select("id", { count: "exact", head: true })
+  .eq("user_id", user.id)
+  .gte("created_at", startOfMonth.toISOString());
+
+if (countErr) {
+  msg.textContent = "Could not check usage. Try again.";
+  return;
+}
+
+if (count >= limits.filesPerMonth) {
+  msg.textContent = "You’ve hit your monthly upload limit. Please upgrade your plan.";
+  return;
+}
+
+// ---- END PLAN + LIMIT ENFORCEMENT ----
 
   // 1) Create DB row FIRST so we get a single upload id (the row id)
 const ins = await client

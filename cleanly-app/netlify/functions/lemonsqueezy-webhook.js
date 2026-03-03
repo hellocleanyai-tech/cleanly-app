@@ -18,9 +18,12 @@ export async function handler(event) {
     const rawBody = event.body || "";
     const digest = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
 
-    if (digest !== signature) {
-      return { statusCode: 401, body: "Invalid signature" };
-    }
+    const a = Buffer.from(digest, "utf8");
+const b = Buffer.from(signature, "utf8");
+
+if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+  return { statusCode: 401, body: "Invalid signature" };
+}
 
     const payload = JSON.parse(rawBody);
 
