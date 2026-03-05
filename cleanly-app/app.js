@@ -44,25 +44,34 @@ async function refreshUI() {
   app.style.display = "block";
   userInfo.textContent = `Signed in as ${user.email}`;
 
-  // Ensure profile exists (MVP)
-  const up = await client.from("profiles").upsert(
+  // Ensure profile exists
+const up = await client
+  .from("profiles")
+  .upsert(
     { user_id: user.id, email: user.email },
     { onConflict: "user_id" }
   );
 
-  // Optional: show error if profile creation fails
-  if (up.error) {
-    console.warn("profiles upsert failed:", up.error.message);
-  }
+if (up.error) {
+  alert("profiles upsert failed: " + up.error.message);
+  return;
+} else {
+  console.log("profiles upsert ok", up);
+}
   
-  //  FETCH profile and store globally
   const prof = await client
-    .from("profiles")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
+  .from("profiles")
+  .select("*")
+  .eq("user_id", user.id)
+  .single();
 
-  currentProfile = prof.data || null;
+if (prof.error) {
+  alert("profiles select failed: " + prof.error.message);
+  currentProfile = null;
+} else {
+  console.log("profile row:", prof.data);
+  currentProfile = prof.data;
+}
 
   await loadUploads();
 }
