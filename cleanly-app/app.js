@@ -43,6 +43,40 @@ async function refreshUI() {
   logoutBtn.style.display = "inline-block";
   app.style.display = "block";
   userInfo.textContent = `Signed in as ${user.email}`;
+  
+  console.log("refreshUI running");
+
+console.log("User object:", user);
+alert("Logged in as: " + user.email + "\nUser ID: " + user.id);
+
+const up = await client
+  .from("profiles")
+  .upsert({ user_id: user.id, email: user.email }, { onConflict: "user_id" });
+
+console.log("Upsert response:", up);
+
+if (up.error) {
+  alert("❌ profiles upsert failed:\n" + up.error.message);
+  return;
+} else {
+  alert(" profiles upsert OK");
+}
+
+const prof = await client
+  .from("profiles")
+  .select("*")
+  .eq("user_id", user.id)
+  .single();
+
+console.log("Select response:", prof);
+
+if (prof.error) {
+  alert("❌ profiles select failed:\n" + prof.error.message);
+  return;
+} else {
+  alert(" profile row found:\n" + JSON.stringify(prof.data, null, 2));
+  currentProfile = prof.data;
+}
 
   // Ensure profile exists
 const up = await client
