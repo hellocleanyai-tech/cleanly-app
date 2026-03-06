@@ -84,6 +84,39 @@ logoutBtn.addEventListener("click", async () => {
 
 uploadBtn.addEventListener("click", async () => {
   msg.textContent = "";
+  
+  // ===== HARD GATE (CARD-REQUIRED TRIAL) =====
+  const { data: { user } } = await client.auth.getUser();
+  if (!user) {
+    msg.textContent = "Please sign in first.";
+    return;
+  }
+
+  const profNow = await client
+    .from("profiles")
+    .select("plan,status")
+    .eq("user_id", user.id)
+    .single();
+
+  if (profNow.error || !profNow.data) {
+    msg.textContent = "Profile not found. Please refresh and try again.";
+    return;
+  }
+
+  const statusNow = String(profNow.data.status || "inactive").toLowerCase();
+
+  // Only allow uploads if payment has started (trialing or active)
+  const canUse = (statusNow === "trialing" || statusNow === "active");
+
+  if (!canUse) {
+    msg.textContent = "Start your 48-hour trial (card required) to upload, or choose a plan.";
+    return;
+  }
+
+  // Use plan for limits below
+  const planNow = String(profNow.data.plan || "trial").toLowerCase();
+  const limits = LIMITS[planNow] || LIMITS.trial;
+  // ===== END HARD GATE =====
 
   const file = fileInput.files?.[0];
   if (!file) {
@@ -96,31 +129,9 @@ uploadBtn.addEventListener("click", async () => {
     return;
   }
 
-  const { data: { user } } = await client.auth.getUser();
-  if (!user) {
-    msg.textContent = "Please sign in first.";
-    return;
-  }
+ 
   
-  // ---- PLAN + LIMIT ENFORCEMENT (PASTE HERE) ----
-
-// Load profile if not available
-if (!currentProfile) {
-  const prof = await client.from("profiles").select("*").eq("user_id", user.id).single();
-  currentProfile = prof.data || null;
-}
-
-const plan = (currentProfile?.plan || "trial").toLowerCase();
-const status = (currentProfile?.status || "inactive").toLowerCase();
-
-// Gate access
-const canUse = (status === "active" || status === "trialing");
-if (!canUse) {
-  msg.textContent = "Please subscribe to use Cleanly.";
-  return;
-}
-
-const limits = LIMITS[plan] || LIMITS.trial;
+ 
 
 // Enforce file size
 if (file.size > limits.maxBytes) {
