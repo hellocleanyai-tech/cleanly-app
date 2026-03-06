@@ -68,7 +68,7 @@ loginBtn.addEventListener("click", async () => {
   const { error } = await client.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "https://reliable-pudding-ff00ee.netlify.app/"
+      redirectTo: "https://cleanlyai.netlify.app/"
     }
   });
 
