@@ -59,8 +59,16 @@ if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
       else if (n.includes("pro")) plan = "pro";
     }
 
-    const status =
-      attributes?.status ? String(attributes.status).toLowerCase() : "active";
+   const rawStatus = String(attributes?.status || "").toLowerCase();
+
+let status = "inactive";
+if (rawStatus === "trialing") status = "trialing";
+else if (rawStatus === "active") status = "active";
+else if (rawStatus === "on_trial") status = "trialing";
+else if (rawStatus === "cancelled") status = "inactive";
+else if (rawStatus === "expired") status = "inactive";
+else if (rawStatus === "past_due") status = "inactive";
+else if (rawStatus === "unpaid") status = "inactive";
 
     const trialEndsAt = attributes?.trial_ends_at || attributes?.trial_end_at || null;
     const currentPeriodEnd = attributes?.renews_at || attributes?.ends_at || null;
