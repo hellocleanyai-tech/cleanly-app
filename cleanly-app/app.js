@@ -36,12 +36,13 @@ async function refreshUI() {
     logoutBtn.style.display = "none";
     app.style.display = "none";
     userInfo.textContent = "";
+	const planCard = document.getElementById("planCard");
+if (planCard) planCard.innerHTML = "";
     return;
   }
 
     loginBtn.style.display = "none";
   logoutBtn.style.display = "inline-block";
-  app.style.display = "block";
   userInfo.textContent = `Signed in as ${user.email}`;
 
   // Ensure profile exists
@@ -61,7 +62,66 @@ const prof = await client
 
 currentProfile = prof.data || null;
 
-  await loadUploads();
+const planCard = document.getElementById("planCard");
+if (planCard && currentProfile) {
+  const plan = String(currentProfile.plan || "none").toLowerCase();
+
+  let label = "No Plan";
+  let helper = "Choose a plan to get started.";
+  let bg = "#eee";
+
+  if (plan === "starter") {
+    label = currentProfile.status === "trialing" ? "Starter Trial" : "Starter";
+    helper = "10 uploads/month • 5MB max per file";
+    bg = "#dbeafe";
+  } else if (plan === "growth") {
+    label = "Growth";
+    helper = "50 uploads/month • 25MB max per file";
+    bg = "#ede9fe";
+  } else if (plan === "pro") {
+    label = "Pro";
+    helper = "Unlimited uploads • 100MB max per file";
+    bg = "#fef3c7";
+  }
+
+  planCard.innerHTML = `
+    <div style="padding:12px; border-radius:12px; background:${bg}; border:1px solid #ddd;">
+      <div style="font-weight:700;">${label}</div>
+      <div style="font-size:14px; margin-top:4px;">${helper}</div>
+    </div>
+  `;
+}
+
+const statusNow = String(currentProfile?.status || "inactive").toLowerCase();
+const canUseApp = (statusNow === "trialing" || statusNow === "active");
+
+if (!canUseApp) {
+  app.style.display = "none";
+  msg.textContent = "No active subscription found. Please choose a plan on our main website.";
+
+  let pricingBtn = document.getElementById("pricingBtn");
+  if (!pricingBtn) {
+    pricingBtn = document.createElement("button");
+    pricingBtn.id = "pricingBtn";
+    pricingBtn.textContent = "Go to Pricing";
+    pricingBtn.style.marginTop = "12px";
+    pricingBtn.onclick = () => {
+      window.location.href = "https://YOUR-FRAMER-DOMAIN.com/pricing";
+    };
+    document.body.appendChild(pricingBtn);
+  }
+
+  return;
+}
+
+// remove pricing button if user becomes active/trialing
+const oldPricingBtn = document.getElementById("pricingBtn");
+if (oldPricingBtn) {
+  oldPricingBtn.remove();
+}
+
+app.style.display = "block";
+await loadUploads();
 }
 
 loginBtn.addEventListener("click", async () => {

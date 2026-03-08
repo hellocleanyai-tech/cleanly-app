@@ -51,13 +51,13 @@ if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
 
     // Decide plan/status based on event
     // subscription_created / subscription_updated are the minimum you need. :contentReference[oaicite:3]{index=3}
-    let plan = "trial";
-    if (productName) {
-      const n = String(productName).toLowerCase();
-      if (n.includes("starter")) plan = "starter";
-      else if (n.includes("growth")) plan = "growth";
-      else if (n.includes("pro")) plan = "pro";
-    }
+    let plan = "none";
+if (productName) {
+  const n = String(productName).toLowerCase();
+  if (n.includes("starter")) plan = "starter";
+  else if (n.includes("growth")) plan = "growth";
+  else if (n.includes("pro")) plan = "pro";
+}
 
    const rawStatus = String(attributes?.status || "").toLowerCase();
 
