@@ -28,6 +28,25 @@ if (sortSelect) {
 
 let currentProfile = null;
 
+async function getMonthlyUsage(userId) {
+  const startOfMonth = new Date();
+  startOfMonth.setUTCDate(1);
+  startOfMonth.setUTCHours(0, 0, 0, 0);
+
+  const { count, error } = await client
+    .from("uploads")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .gte("created_at", startOfMonth.toISOString());
+
+  if (error) {
+    console.warn("usage count failed:", error.message);
+    return 0;
+  }
+
+  return count || 0;
+}
+
 async function refreshUI() {
   const { data: { user }, error } = await client.auth.getUser();
 
@@ -65,6 +84,7 @@ currentProfile = prof.data || null;
 const planCard = document.getElementById("planCard");
 if (planCard && currentProfile) {
   const plan = String(currentProfile.plan || "none").toLowerCase();
+  const uploadsUsed = await getMonthlyUsage(user.id);
 
   let label = "No Plan";
   let helper = "Choose a plan to get started.";
@@ -72,15 +92,15 @@ if (planCard && currentProfile) {
 
   if (plan === "starter") {
     label = currentProfile.status === "trialing" ? "Starter Trial" : "Starter";
-    helper = "10 uploads/month • 5MB max per file";
+    helper = `10 uploads/month • 5MB max per file • Used: ${uploadsUsed}/10`;
     bg = "#dbeafe";
   } else if (plan === "growth") {
     label = "Growth";
-    helper = "50 uploads/month • 25MB max per file";
+    helper = `50 uploads/month • 25MB max per file • Used: ${uploadsUsed}/50`;
     bg = "#ede9fe";
   } else if (plan === "pro") {
     label = "Pro";
-    helper = "Unlimited uploads • 100MB max per file";
+    helper = `Unlimited uploads • 100MB max per file • Used: ${uploadsUsed}`;
     bg = "#fef3c7";
   }
 
