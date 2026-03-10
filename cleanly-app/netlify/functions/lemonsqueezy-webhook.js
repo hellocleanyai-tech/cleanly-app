@@ -29,6 +29,7 @@ if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
 
     // Lemon Squeezy sends JSON:API style payloads for the resource related to the event. :contentReference[oaicite:2]{index=2}
     const data = payload?.data;
+	const lemonSubscriptionId = data?.id || null;
     const attributes = data?.attributes || {};
 
     // We need a way to map this subscription to your user.
@@ -72,6 +73,18 @@ else if (rawStatus === "unpaid") status = "inactive";
 
     const trialEndsAt = attributes?.trial_ends_at || attributes?.trial_end_at || null;
     const currentPeriodEnd = attributes?.renews_at || attributes?.ends_at || null;
+	
+	const patchData = {
+  plan,
+  status,
+  ls_subscription_id: lemonSubscriptionId,
+  trial_ends_at: trialEndsAt,
+  current_period_end: currentPeriodEnd
+};
+
+if (plan === "starter") {
+  patchData.trial_used = true;
+}
 
     // Update Supabase profiles by email (server-side)
     const supabaseUrl = process.env.SUPABASE_URL;
@@ -85,12 +98,7 @@ else if (rawStatus === "unpaid") status = "inactive";
         "Authorization": `Bearer ${supabaseServiceRole}`,
         "Prefer": "return=minimal"
       },
-      body: JSON.stringify({
-        plan,
-        status,
-        trial_ends_at: trialEndsAt,
-        current_period_end: currentPeriodEnd
-      })
+      body: JSON.stringify(patchData)
     });
 
     // If no row found by email, you can handle this later (e.g., custom_data user_id).

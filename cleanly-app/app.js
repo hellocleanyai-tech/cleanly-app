@@ -15,6 +15,8 @@ const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("uploadBtn");
 const msg = document.getElementById("msg");
 const list = document.getElementById("list");
+const cancelPlanBtn = document.getElementById("cancelPlanBtn");
+const upgradeBtn = document.getElementById("upgradeBtn");
 const LIMITS = {
   trial:   { filesPerMonth: 3,  maxBytes: 2 * 1024 * 1024 },   // trial: 3 files, 2MB
   starter: { filesPerMonth: 10, maxBytes: 5 * 1024 * 1024 },   // 5MB
@@ -81,6 +83,18 @@ const prof = await client
 
 currentProfile = prof.data || null;
 
+if (cancelPlanBtn) cancelPlanBtn.style.display = "none";
+if (upgradeBtn) upgradeBtn.style.display = "none";
+
+const paidOrTrialing = ["trialing", "active"].includes(
+  String(currentProfile?.status || "").toLowerCase()
+);
+
+if (paidOrTrialing) {
+  if (cancelPlanBtn) cancelPlanBtn.style.display = "inline-block";
+  if (upgradeBtn) upgradeBtn.style.display = "inline-block";
+}
+
 const planCard = document.getElementById("planCard");
 if (planCard && currentProfile) {
   const plan = String(currentProfile.plan || "none").toLowerCase();
@@ -113,7 +127,23 @@ if (planCard && currentProfile) {
 }
 
 const statusNow = String(currentProfile?.status || "inactive").toLowerCase();
-const canUseApp = (statusNow === "trialing" || statusNow === "active");
+const periodEnd = currentProfile?.current_period_end
+  ? new Date(currentProfile.current_period_end)
+  : null;
+const now = new Date();
+
+const stillWithinPaidPeriod =
+  statusNow === "inactive" &&
+  periodEnd &&
+  periodEnd > now &&
+  ["starter", "growth", "pro"].includes(
+    String(currentProfile?.plan || "").toLowerCase()
+  );
+
+const canUseApp =
+  statusNow === "trialing" ||
+  statusNow === "active" ||
+  stillWithinPaidPeriod;
 
 if (!canUseApp) {
   app.style.display = "none";
@@ -132,6 +162,10 @@ if (!canUseApp) {
   }
 
   return;
+}
+
+if (stillWithinPaidPeriod) {
+  msg.textContent = `Your plan has been canceled. You can keep using it until ${new Date(currentProfile.current_period_end).toLocaleDateString()}.`;
 }
 
 // remove pricing button if user becomes active/trialing
@@ -161,6 +195,37 @@ logoutBtn.addEventListener("click", async () => {
   await client.auth.signOut();
   refreshUI();
 });
+
+if (upgradeBtn) {
+  upgradeBtn.addEventListener("click", () => {
+    window.location.href = "https://YOUR-FRAMER-DOMAIN.com/pricing";
+  });
+}
+
+if (cancelPlanBtn) {
+  cancelPlanBtn.addEventListener("click", async () => {
+    if (!currentProfile?.ls_customer_id) {
+      msg.textContent = "Customer portal not available yet.";
+      return;
+    }
+
+    const res = await fetch("/.netlify/functions/get-customer-portal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customerId: currentProfile.ls_customer_id })
+    });
+
+    const json = await res.json();
+
+    if (!res.ok || !json.url) {
+      msg.textContent = "Could not open subscription portal.";
+      return;
+    }
+
+    window.open(json.url, "_blank");
+    msg.textContent = "Open the billing portal to cancel your current subscription plan.";
+  });
+}
 
 uploadBtn.addEventListener("click", async () => {
   msg.textContent = "";
