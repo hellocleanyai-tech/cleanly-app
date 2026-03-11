@@ -10,6 +10,8 @@ const client = window.supabase.createClient(
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const userInfo = document.getElementById("userInfo");
+const emailInput = document.getElementById("emailInput");
+const emailLoginBtn = document.getElementById("emailLoginBtn");
 const app = document.getElementById("app");
 const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("uploadBtn");
@@ -23,6 +25,15 @@ const LIMITS = {
   growth:  { filesPerMonth: 50, maxBytes: 25 * 1024 * 1024 },  // 25MB
   pro:     { filesPerMonth: 999999, maxBytes: 100 * 1024 * 1024 } // 100MB
 };
+
+const CHECKOUTS = {
+  starterTrial: "PASTE_STARTER_TRIAL_CHECKOUT_URL_HERE",
+  starterStandard: "PASTE_STARTER_STANDARD_CHECKOUT_URL_HERE",
+  growth: "PASTE_GROWTH_CHECKOUT_URL_HERE",
+  pro: "PASTE_PRO_CHECKOUT_URL_HERE",
+  pricingPage: "https://YOUR-FRAMER-DOMAIN.com/pricing"
+};
+
 const sortSelect = document.getElementById("sortSelect");
 if (sortSelect) {
   sortSelect.addEventListener("change", () => loadUploads());
@@ -57,6 +68,9 @@ async function refreshUI() {
     logoutBtn.style.display = "none";
     app.style.display = "none";
     userInfo.textContent = "";
+	  if (emailInput) emailInput.style.display = "inline-block";
+  if (emailLoginBtn) emailLoginBtn.style.display = "inline-block";
+
 	const planCard = document.getElementById("planCard");
 if (planCard) planCard.innerHTML = "";
     return;
@@ -65,6 +79,9 @@ if (planCard) planCard.innerHTML = "";
     loginBtn.style.display = "none";
   logoutBtn.style.display = "inline-block";
   userInfo.textContent = `Signed in as ${user.email}`;
+  if (emailInput) emailInput.style.display = "none";
+if (emailLoginBtn) emailLoginBtn.style.display = "none";
+
 
   // Ensure profile exists
 await client
@@ -86,13 +103,15 @@ currentProfile = prof.data || null;
 if (cancelPlanBtn) cancelPlanBtn.style.display = "none";
 if (upgradeBtn) upgradeBtn.style.display = "none";
 
-const paidOrTrialing = ["trialing", "active"].includes(
-  String(currentProfile?.status || "").toLowerCase()
-);
+const statusForButtons = String(currentProfile?.status || "inactive").toLowerCase();
+const canUseButtons = (statusForButtons === "trialing" || statusForButtons === "active");
 
-if (paidOrTrialing) {
-  if (cancelPlanBtn) cancelPlanBtn.style.display = "inline-block";
-  if (upgradeBtn) upgradeBtn.style.display = "inline-block";
+if (upgradeBtn) {
+  upgradeBtn.style.display = "inline-block";
+}
+
+if (cancelPlanBtn && canUseButtons) {
+  cancelPlanBtn.style.display = "inline-block";
 }
 
 const planCard = document.getElementById("planCard");
@@ -147,18 +166,28 @@ const canUseApp =
 
 if (!canUseApp) {
   app.style.display = "none";
-  msg.textContent = "No active subscription found. Please choose a plan on our main website.";
+  msg.textContent = "No active subscription found. Please choose a plan to continue.";
+
+  const trialUsed = !!currentProfile?.trial_used;
 
   let pricingBtn = document.getElementById("pricingBtn");
   if (!pricingBtn) {
     pricingBtn = document.createElement("button");
     pricingBtn.id = "pricingBtn";
-    pricingBtn.textContent = "Go to Pricing";
     pricingBtn.style.marginTop = "12px";
-    pricingBtn.onclick = () => {
-      window.location.href = "https://YOUR-FRAMER-DOMAIN.com/pricing";
-    };
     document.body.appendChild(pricingBtn);
+  }
+
+  if (!trialUsed) {
+    pricingBtn.textContent = "Start Starter Trial";
+    pricingBtn.onclick = () => {
+      window.location.href = CHECKOUTS.starterTrial;
+    };
+  } else {
+    pricingBtn.textContent = "Choose a Plan";
+    pricingBtn.onclick = () => {
+      window.location.href = CHECKOUTS.pricingPage;
+    };
   }
 
   return;
@@ -191,14 +220,74 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
+if (emailLoginBtn) {
+  emailLoginBtn.addEventListener("click", async () => {
+    const email = (emailInput?.value || "").trim().toLowerCase();
+
+    if (!email) {
+      msg.textContent = "Enter your email first.";
+      return;
+    }
+
+    const { error } = await client.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: "https://cleanlyai.netlify.app/"
+      }
+    });
+
+    if (error) {
+      msg.textContent = "Could not send login link: " + error.message;
+      return;
+    }
+
+    msg.textContent = "Login link sent. Check your email inbox.";
+  });
+}
+
+
 logoutBtn.addEventListener("click", async () => {
   await client.auth.signOut();
   refreshUI();
 });
 
 if (upgradeBtn) {
-  upgradeBtn.addEventListener("click", () => {
-    window.location.href = "https://YOUR-FRAMER-DOMAIN.com/pricing";
+  upgradeBtn.addEventListener("click", async () => {
+    const { data: { user } } = await client.auth.getUser();
+
+    if (!user) {
+      msg.textContent = "Please sign in first.";
+      return;
+    }
+
+    const prof = await client
+      .from("profiles")
+      .select("plan,status,trial_used")
+      .eq("user_id", user.id)
+      .single();
+
+    if (prof.error || !prof.data) {
+      msg.textContent = "Could not load your subscription info.";
+      return;
+    }
+
+    const status = String(prof.data.status || "inactive").toLowerCase();
+    const trialUsed = !!prof.data.trial_used;
+
+    // If already active/trialing, send to pricing page for upgrades
+    if (status === "active" || status === "trialing") {
+      window.location.href = CHECKOUTS.pricingPage;
+      return;
+    }
+
+    // If inactive and trial never used -> Starter Trial
+    if (!trialUsed) {
+      window.location.href = CHECKOUTS.starterTrial;
+      return;
+    }
+
+    // If inactive and trial already used -> Starter Standard
+    window.location.href = CHECKOUTS.starterStandard;
   });
 }
 

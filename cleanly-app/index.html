@@ -19,12 +19,23 @@
 <h1>Cleanly AI</h1>
 
 <div class="card">
-  <div class="row">
-    <button id="loginBtn">Sign in with Google</button>
+  <div class="row" style="margin-bottom:10px;">
+    <button id="loginBtn">Continue with Google</button>
     <button id="logoutBtn" style="display:none;">Log out</button>
     <span id="userInfo" class="muted"></span>
   </div>
+
+  <div class="row">
+    <input
+      type="email"
+      id="emailInput"
+      placeholder="Enter the same email used at checkout"
+      style="padding:10px; min-width:280px;"
+    />
+    <button id="emailLoginBtn">Send login link</button>
+  </div>
 </div>
+
 
 <div class="card" id="app" style="display:none;">
   <div id="planCard" style="margin-bottom:16px;"></div>

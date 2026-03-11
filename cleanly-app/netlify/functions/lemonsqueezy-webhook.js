@@ -82,7 +82,7 @@ else if (rawStatus === "unpaid") status = "inactive";
   current_period_end: currentPeriodEnd
 };
 
-if (plan === "starter") {
+if (plan === "starter" && (status === "trialing" || status === "active")) {
   patchData.trial_used = true;
 }
 
