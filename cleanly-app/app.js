@@ -27,10 +27,10 @@ const LIMITS = {
 };
 
 const CHECKOUTS = {
-  starterTrial: "PASTE_STARTER_TRIAL_CHECKOUT_URL_HERE",
-  starterStandard: "PASTE_STARTER_STANDARD_CHECKOUT_URL_HERE",
-  growth: "PASTE_GROWTH_CHECKOUT_URL_HERE",
-  pro: "PASTE_PRO_CHECKOUT_URL_HERE",
+  starterTrial: "https://cleanly-app.lemonsqueezy.com/checkout",
+  starterStandard: "https://cleanly-app.lemonsqueezy.com/checkout",
+  growth: "https://cleanly-app.lemonsqueezy.com/checkout",
+  pro: "https://cleanly-app.lemonsqueezy.com/checkout",
   pricingPage: "https://YOUR-FRAMER-DOMAIN.com/pricing"
 };
 
