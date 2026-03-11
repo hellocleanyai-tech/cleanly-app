@@ -293,7 +293,21 @@ if (upgradeBtn) {
 
 if (cancelPlanBtn) {
   cancelPlanBtn.addEventListener("click", async () => {
-    if (!currentProfile?.ls_customer_id) {
+    const { data: { user } } = await client.auth.getUser();
+
+    if (!user) {
+      msg.textContent = "Please sign in first.";
+      return;
+    }
+
+    // Always fetch fresh profile data
+    const prof = await client
+      .from("profiles")
+      .select("ls_customer_id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (prof.error || !prof.data?.ls_customer_id) {
       msg.textContent = "Customer portal not available yet.";
       return;
     }
@@ -301,7 +315,7 @@ if (cancelPlanBtn) {
     const res = await fetch("/.netlify/functions/get-customer-portal", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ customerId: currentProfile.ls_customer_id })
+      body: JSON.stringify({ customerId: prof.data.ls_customer_id })
     });
 
     const json = await res.json();
