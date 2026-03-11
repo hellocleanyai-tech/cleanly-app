@@ -31,6 +31,11 @@ if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
     const data = payload?.data;
 	const lemonSubscriptionId = data?.id || null;
     const attributes = data?.attributes || {};
+	
+	const lemonCustomerId =
+  attributes?.customer_id ||
+  payload?.data?.relationships?.customer?.data?.id ||
+  null;
 
     // We need a way to map this subscription to your user.
     // Easiest MVP: use customer email from attributes where available.
@@ -77,6 +82,7 @@ else if (rawStatus === "unpaid") status = "inactive";
 	const patchData = {
   plan,
   status,
+  ls_customer_id: lemonCustomerId,
   ls_subscription_id: lemonSubscriptionId,
   trial_ends_at: trialEndsAt,
   current_period_end: currentPeriodEnd
