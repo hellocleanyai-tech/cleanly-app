@@ -27,8 +27,8 @@ const LIMITS = {
 };
 
 const CHECKOUTS = {
-  starterTrial: "https://cleanly-app.lemonsqueezy.com/checkout",
-starterStandard: "https://cleanly-app.lemonsqueezy.com/checkout",
+  starterTrial: "https://cleanly-app.lemonsqueezy.com/checkout/buy/951fa1d7-06ec-400a-b43e-fb3f0331d49a",
+starterStandard: "https://cleanly-app.lemonsqueezy.com/checkout/buy/b21dd36e-37ac-4a7a-86f1-88a57b94ec6d",
   growth: "https://cleanly-app.lemonsqueezy.com/checkout",
   pro: "https://cleanly-app.lemonsqueezy.com/checkout",
   pricingPage: "https://YOUR-FRAMER-DOMAIN.com/pricing"
