@@ -31,7 +31,7 @@ const CHECKOUTS = {
 starterStandard: "https://cleanly-app.lemonsqueezy.com/checkout/buy/b21dd36e-37ac-4a7a-86f1-88a57b94ec6d",
   growth: "https://cleanly-app.lemonsqueezy.com/checkout",
   pro: "https://cleanly-app.lemonsqueezy.com/checkout",
-  pricingPage: "https://YOUR-FRAMER-DOMAIN.com/pricing"
+  checkout: "https://cleanly-app.lemonsqueezy.com/checkout"
 };
 
 const sortSelect = document.getElementById("sortSelect");
@@ -186,7 +186,7 @@ if (!canUseApp) {
   } else {
     pricingBtn.textContent = "Choose a Plan";
     pricingBtn.onclick = () => {
-      window.location.href = CHECKOUTS.pricingPage;
+      window.location.href = CHECKOUTS.checkout;
     };
   }
 
@@ -276,7 +276,7 @@ if (upgradeBtn) {
 
     // If already active/trialing, send to pricing page for upgrades
     if (status === "active" || status === "trialing") {
-      window.location.href = CHECKOUTS.pricingPage;
+      window.location.href = CHECKOUTS.checkout;
       return;
     }
 
