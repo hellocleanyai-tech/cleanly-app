@@ -1,0 +1,15 @@
+{
+  "name": "cleanly-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cleanly AI — unified marketing site, authentication and CSV cleaning dashboard.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node scripts/build-config.mjs",
+    "test": "node scripts/selftest.mjs",
+    "dev": "node scripts/build-config.mjs && npx --yes serve public -l 8888",
+    "start": "netlify dev"
+  },
+  "dependencies": {}
+}

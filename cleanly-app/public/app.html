@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="robots" content="noindex" />
+
+  <title>Dashboard · Cleanly AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/theme.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+
+<body class="app-body">
+  <!-- Shown until the session and profile resolve, so the page never flashes
+       an unauthenticated or empty state. -->
+  <div class="splash" id="splash">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading your dashboard…</p>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-nav">
+    <div class="shell app-nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.5 9.5 17 19 7" />
+          </svg>
+        </span>
+        Cleanly AI
+      </a>
+
+      <nav class="app-nav-links" aria-label="Dashboard">
+        <a href="/app" aria-current="page">Dashboard</a>
+        <a href="/account">Account</a>
+      </nav>
+
+      <div class="app-nav-right">
+        <span class="app-user" id="userEmail"></span>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main" id="main">
+    <div class="shell">
+      <div class="page-head">
+        <h1>Dashboard</h1>
+        <p>Upload a contact list and download the cleaned version.</p>
+      </div>
+
+      <div class="stack">
+        <!-- Cancelled-but-still-paid notice -->
+        <div class="banner banner-warn" id="graceBanner" hidden>
+          <span aria-hidden="true">⚠</span>
+          <span id="graceText"></span>
+        </div>
+
+        <!-- ============================================== no access === -->
+        <section class="card paywall" id="paywall" hidden>
+          <h2 id="paywallTitle">Start your 48-hour trial</h2>
+          <p id="paywallText">
+            Start your 48-hour trial (card required) to upload, or choose a plan.
+          </p>
+          <div class="paywall-actions">
+            <button class="btn btn-primary btn-lg" id="paywallBtn" type="button">Start Starter Trial</button>
+            <a class="btn btn-ghost btn-lg" href="/#pricing">Compare plans</a>
+          </div>
+          <p class="paywall-fine">
+            Starter €7 · Growth €15 · Pro €29 per month. Cancel anytime.
+          </p>
+        </section>
+
+        <!-- ============================================ subscribed === -->
+        <div id="appArea" hidden>
+          <div class="stack">
+            <!-- Plan and usage -->
+            <section class="card plan-card" aria-labelledby="planHeading">
+              <div class="plan-top">
+                <div>
+                  <div class="plan-label" id="planHeading">Current plan</div>
+                  <div class="plan-name">
+                    <span id="planName">—</span>
+                    <span class="status-chip" id="planStatus" hidden></span>
+                  </div>
+                </div>
+
+                <div class="plan-actions">
+                  <button class="btn btn-ghost" id="manageBtn" type="button" hidden>Manage billing</button>
+                  <button class="btn btn-primary" id="upgradeBtn" type="button">Upgrade plan</button>
+                </div>
+              </div>
+
+              <dl class="plan-meters">
+                <div>
+                  <div class="meter-head">
+                    <dt>Uploads this month</dt>
+                    <dd id="usageValue">—</dd>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" id="usageBar"></div>
+                  </div>
+                  <p class="meter-note" id="usageNote">Resets on the 1st of each month.</p>
+                </div>
+
+                <div>
+                  <div class="meter-head">
+                    <dt>Maximum file size</dt>
+                    <dd id="sizeValue">—</dd>
+                  </div>
+                  <div class="meter-track">
+                    <div class="meter-fill" id="sizeBar" style="width:100%"></div>
+                  </div>
+                  <p class="meter-note" id="sizeNote">Per uploaded CSV file.</p>
+                </div>
+              </dl>
+            </section>
+
+            <!-- Upload -->
+            <section class="card upload-card" aria-labelledby="uploadHeading">
+              <h2 class="card-title" id="uploadHeading">Upload CSV</h2>
+              <p class="card-sub">Drag a file in, or choose one from your computer.</p>
+
+              <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                   aria-label="Choose a CSV file, or drag one here">
+                <span class="dropzone-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" />
+                    <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+                  </svg>
+                </span>
+                <p class="dropzone-title">Drop your CSV here or <b>browse files</b></p>
+                <p class="dropzone-hint" id="dropzoneHint">.csv files only</p>
+                <input type="file" id="fileInput" accept=".csv,text/csv" class="sr-only" />
+              </div>
+
+              <div class="file-chip" id="fileChip">
+                <span class="file-chip-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 3v5h5" />
+                  </svg>
+                </span>
+                <span class="file-chip-name" id="fileChipName"></span>
+                <span class="file-chip-size" id="fileChipSize"></span>
+                <button class="file-chip-clear" id="fileChipClear" type="button" aria-label="Remove selected file">×</button>
+              </div>
+
+              <div class="upload-actions">
+                <button class="btn btn-primary" id="uploadBtn" type="button" disabled>Upload and clean</button>
+                <span class="upload-hint" id="uploadHint"></span>
+              </div>
+            </section>
+
+            <!-- History -->
+            <section class="card uploads-card" aria-labelledby="uploadsHeading">
+              <div class="uploads-head">
+                <div>
+                  <h2 class="card-title" id="uploadsHeading">My uploads</h2>
+                  <p class="card-sub" id="uploadsCount"></p>
+                </div>
+
+                <div class="select-wrap">
+                  <label class="sr-only" for="sortSelect">Sort uploads</label>
+                  <select class="select" id="sortSelect">
+                    <option value="newest" selected>Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="name">File name (A–Z)</option>
+                  </select>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m4 6 4 4 4-4" />
+                  </svg>
+                </div>
+              </div>
+
+              <div id="uploadsRegion" aria-live="polite" aria-busy="true"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/assets/vendor/supabase-js-2.45.4.js"></script>
+  <script src="/assets/js/env.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
+</body>
+</html>

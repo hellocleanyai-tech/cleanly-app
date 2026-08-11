@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+
+  <title>Cleanly AI — Clean CSV files in seconds with AI</title>
+  <meta name="description" content="Cleanly AI removes duplicates, validates emails, normalizes phone numbers and formats contact lists for your CRM. Upload a CSV, download a clean one." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cleanly AI — Clean CSV files in seconds with AI" />
+  <meta property="og:description" content="Remove duplicates, validate emails and normalize phone numbers automatically. Upload a CSV, download a clean one." />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/theme.css" />
+  <link rel="stylesheet" href="/assets/css/marketing.css" />
+
+  <!-- Enables JS-only styles (the scroll reveal). Without this the page still
+       renders fully — content is never hidden behind JavaScript. -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+
+<body class="marketing">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ==================================================== navigation === -->
+  <header class="site-nav" id="siteNav">
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="Cleanly AI, back to top">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.5 9.5 17 19 7" />
+          </svg>
+        </span>
+        Cleanly AI
+      </a>
+
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost btn-sm" href="/login">Log in</a>
+        <a class="btn btn-primary btn-sm" href="/login">Start Free Trial</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <span id="top"></span>
+
+    <!-- ======================================================= hero === -->
+    <section class="hero">
+      <div class="shell">
+        <span class="eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+          </svg>
+          AI-powered CSV cleaning
+        </span>
+
+        <h1>Clean CSV Files <span class="grad">in Seconds with AI</span></h1>
+
+        <p class="hero-sub">
+          Remove duplicates, validate emails, normalize phone numbers,
+          and clean contact lists automatically.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="/login">Start Free Trial</a>
+          <a class="btn btn-ghost btn-lg" href="#pricing">View Pricing</a>
+        </div>
+
+        <p class="hero-note">48-hour trial · Card required · Cancel anytime</p>
+
+        <!-- Signature element: the product's actual job, shown not described -->
+        <div class="demo" role="img"
+             aria-label="Before and after comparison. A messy contact list with a duplicate row, an invalid email and an unformatted phone number becomes a clean list with 3 duplicates removed, 2 invalid emails flagged and 48 phone numbers normalized.">
+          <div class="demo-bar">
+            <span class="demo-dot"></span>
+            <span class="demo-dot"></span>
+            <span class="demo-dot"></span>
+            <span class="demo-file">contacts.csv</span>
+            <span class="demo-flag">
+              <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 10.5 8 14.5 16 6" />
+              </svg>
+              Cleaned
+            </span>
+          </div>
+
+          <div class="demo-grid">
+            <div class="demo-col">
+              <div class="demo-label">Before</div>
+              <div class="demo-row bad">j.doe@GMAIL .com<span class="demo-tag">invalid</span></div>
+              <div class="demo-row bad">Jane Doe, +1 (555) 010-2938<span class="demo-tag">format</span></div>
+              <div class="demo-row bad">jane doe, 5550102938<span class="demo-tag">dupe</span></div>
+              <div class="demo-row bad">, , ,<span class="demo-tag">empty</span></div>
+              <div class="demo-row bad">MARK@acme.io<span class="demo-tag">case</span></div>
+            </div>
+
+            <div class="demo-col is-clean">
+              <div class="demo-label">After</div>
+              <div class="demo-row good">j.doe@gmail.com<span class="demo-tag">fixed</span></div>
+              <div class="demo-row good">Jane Doe, +15550102938<span class="demo-tag">e.164</span></div>
+              <div class="demo-row dropped">jane doe, 5550102938</div>
+              <div class="demo-row dropped">, , ,</div>
+              <div class="demo-row good">mark@acme.io<span class="demo-tag">fixed</span></div>
+            </div>
+
+            <div class="demo-foot">
+              <span><b>3</b> duplicates removed</span>
+              <span><b>2</b> invalid emails flagged</span>
+              <span><b>48</b> phone numbers normalized</span>
+              <span><b>CRM-ready</b> output</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== trusted === -->
+    <section class="trusted">
+      <div class="shell">
+        <p>Trusted by professionals cleaning CSV data every day</p>
+        <div class="trusted-row">
+          <span>Google</span>
+          <span>Microsoft</span>
+          <span>HubSpot</span>
+          <span>Salesforce</span>
+          <span>Shopify</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================== features === -->
+    <section class="section" id="features">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Features</span>
+          <h2>Everything You Need to Clean CSV Files</h2>
+          <p>Powerful AI tools to clean, validate, and organize your contact lists in seconds.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3v5m0 8v5M3 12h5m8 0h5M6 6l3 3m6 6 3 3M18 6l-3 3M9 15l-3 3" />
+              </svg>
+            </div>
+            <h3>Clean Contact Lists</h3>
+            <p>Remove duplicates, normalize phone numbers, and clean messy CSV files automatically.</p>
+          </article>
+
+          <article class="feature reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3 4.5 6v5.5c0 4.5 3.1 8.2 7.5 9.5 4.4-1.3 7.5-5 7.5-9.5V6z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <h3>Validate Data</h3>
+            <p>Automatically detect invalid emails, missing values, and formatting issues.</p>
+          </article>
+
+          <article class="feature reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6" />
+                <path d="M12 15V3m0 0L8 7m4-4 4 4" />
+              </svg>
+            </div>
+            <h3>Export Clean CSV</h3>
+            <p>Download a perfectly formatted CSV ready for your CRM or spreadsheet.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================== how it works === -->
+    <section class="section" id="how-it-works">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">How It Works</span>
+          <h2>How It Works</h2>
+          <p>Clean your contact lists in three simple steps.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step-num">01</span>
+            <h3>Upload CSV</h3>
+            <p>Drag and drop your CSV file or choose one from your computer.</p>
+          </article>
+
+          <article class="step reveal">
+            <span class="step-num">02</span>
+            <h3>AI Cleans Your Data</h3>
+            <p>Our AI removes duplicates, fixes formatting, and validates your contact data.</p>
+          </article>
+
+          <article class="step reveal">
+            <span class="step-num">03</span>
+            <h3>Download Cleaned CSV</h3>
+            <p>Download your cleaned CSV file, ready to import into your CRM or spreadsheet.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== pricing === -->
+    <section class="section" id="pricing">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Pricing</span>
+          <h2>Simple Pricing</h2>
+          <p>Choose the plan that fits your workflow. Upgrade anytime.</p>
+        </div>
+
+        <div class="price-grid">
+          <!-- Starter -->
+          <article class="price reveal">
+            <div class="price-amount"><b>€7</b><span>/month</span></div>
+            <h3>Starter</h3>
+            <p class="price-desc">Perfect for individuals and small teams.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>48-hour trial for new customers</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>10 uploads per month</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>5 MB maximum per file</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Up to 5,000 rows per file</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="/login">Start Free Trial</a>
+            <p class="price-note">Cancel anytime</p>
+          </article>
+
+          <!-- Growth -->
+          <article class="price is-featured reveal">
+            <span class="price-badge">MOST POPULAR</span>
+            <div class="price-amount"><b>€15</b><span>/month</span></div>
+            <h3>Growth</h3>
+            <p class="price-desc">Built for growing businesses that handle larger contact lists regularly.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>50 uploads per month</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>25 MB per file</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Up to 25,000 rows</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>AI duplicate removal</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Email validation</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Phone normalization</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>CRM-ready formatting</li>
+            </ul>
+            <a class="btn btn-primary btn-block" href="/login">Choose Growth</a>
+            <p class="price-note">Cancel anytime</p>
+          </article>
+
+          <!-- Pro -->
+          <article class="price reveal">
+            <div class="price-amount"><b>€29</b><span>/month</span></div>
+            <h3>Pro</h3>
+            <p class="price-desc">Designed for power users and businesses processing high-volume datasets.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Unlimited uploads</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>100 MB per file</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Up to 100,000 rows</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>AI duplicate removal</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Email validation</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Phone normalization</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>CRM-ready formatting</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6"/></svg>Priority processing</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="/login">Choose Pro</a>
+            <p class="price-note">Cancel anytime</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== faq === -->
+    <section class="section" id="faq">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know before getting started with Cleanly AI.</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>
+              What file formats does Cleanly AI support?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              Comma-separated <code>.csv</code> files, saved as UTF-8. Excel, Google Sheets
+              and every major CRM can export this format directly — choose “CSV” when you export.
+              Files with a different extension are rejected before they upload.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              How long does AI cleaning take?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              Most files finish in under a minute. Large lists take a few minutes.
+              You don't have to wait on the page — your dashboard shows the live status of
+              every upload, and the download appears as soon as the file is ready.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Can I cancel my subscription anytime?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              Yes. Cancel from Account → Manage billing in two clicks, with no email required.
+              You keep full access until the end of the period you've already paid for.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Is my uploaded data secure?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              Files are encrypted in transit and at rest, and stored in a private per-account
+              folder. Downloads use short-lived signed links that expire after ten minutes.
+              No other customer can reach your files, and we never sell or share your contact data.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Do unused uploads roll over to the next month?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              No. Your upload allowance resets on the first day of each month (UTC) and unused
+              uploads don't carry over. If you regularly run out, moving up a plan costs less
+              than the time spent rationing files.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Can I upgrade or downgrade my plan later?
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg>
+            </summary>
+            <p class="faq-answer">
+              Anytime, in both directions. Change plans from your dashboard and the new limits
+              apply immediately — billing is prorated automatically, so you only pay the difference.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== cta === -->
+    <section class="section">
+      <div class="shell">
+        <div class="cta-band reveal">
+          <h2>Ready to Clean Your CSV Files?</h2>
+          <p>
+            Start your 48-hour trial today and experience AI-powered CSV cleaning in seconds.
+          </p>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="/login">Start Free Trial</a>
+            <a class="btn btn-ghost btn-lg" href="#pricing">View Pricing</a>
+          </div>
+          <p class="hero-note">Card required to start the trial. Cancel anytime.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================== footer === -->
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="#top">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.5 9.5 17 19 7" />
+              </svg>
+            </span>
+            Cleanly AI
+          </a>
+          <p class="footer-tag">AI-powered CSV cleaning in seconds. Fast, secure, and effortless.</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="/login">Log in</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+        </nav>
+      </div>
+
+      <p class="footer-legal">© <span id="year">2026</span> Cleanly AI. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/assets/js/marketing.js"></script>
+</body>
+</html>

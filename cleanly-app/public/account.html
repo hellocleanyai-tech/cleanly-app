@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="robots" content="noindex" />
+
+  <title>Account · Cleanly AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/theme.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+
+<body class="app-body">
+  <div class="splash" id="splash">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading your account…</p>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-nav">
+    <div class="shell app-nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.5 9.5 17 19 7" />
+          </svg>
+        </span>
+        Cleanly AI
+      </a>
+
+      <nav class="app-nav-links" aria-label="Dashboard">
+        <a href="/app">Dashboard</a>
+        <a href="/account" aria-current="page">Account</a>
+      </nav>
+
+      <div class="app-nav-right">
+        <span class="app-user" id="userEmail"></span>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main" id="main">
+    <div class="shell" style="max-width: 780px;">
+      <div class="page-head">
+        <h1>Account</h1>
+        <p>Your plan, billing and sign-in details.</p>
+      </div>
+
+      <div class="stack">
+        <section class="card plan-card">
+          <h2 class="card-title" style="margin-bottom:20px;">Subscription</h2>
+
+          <dl class="detail-list">
+            <div class="detail-row">
+              <dt>Email</dt>
+              <dd id="detailEmail">—</dd>
+            </div>
+            <div class="detail-row">
+              <dt>Plan</dt>
+              <dd id="detailPlan">—</dd>
+            </div>
+            <div class="detail-row">
+              <dt>Status</dt>
+              <dd><span class="status-chip" id="detailStatus">—</span></dd>
+            </div>
+            <div class="detail-row">
+              <dt>Uploads this month</dt>
+              <dd id="detailUsage">—</dd>
+            </div>
+            <div class="detail-row" id="renewRow" hidden>
+              <dt id="renewLabel">Renews on</dt>
+              <dd id="detailRenew">—</dd>
+            </div>
+            <div class="detail-row" id="trialRow" hidden>
+              <dt>Trial ends</dt>
+              <dd id="detailTrial">—</dd>
+            </div>
+          </dl>
+
+          <div class="plan-actions" style="margin-top:24px;">
+            <button class="btn btn-primary" id="upgradeBtn" type="button">Change plan</button>
+            <button class="btn btn-ghost" id="manageBtn" type="button" hidden>Manage billing</button>
+          </div>
+        </section>
+
+        <section class="card plan-card">
+          <h2 class="card-title">Cancel your subscription</h2>
+          <p class="danger-note">
+            Cancelling is handled in the Lemon Squeezy billing portal. You keep full
+            access until the end of the period you've already paid for, and your
+            upload history stays available.
+          </p>
+          <div class="plan-actions" style="margin-top:20px;">
+            <button class="btn btn-danger" id="cancelBtn" type="button">Cancel subscription</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="/assets/vendor/supabase-js-2.45.4.js"></script>
+  <script src="/assets/js/env.js"></script>
+  <script type="module" src="/assets/js/account.js"></script>
+</body>
+</html>

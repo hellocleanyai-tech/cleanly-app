@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="robots" content="noindex" />
+
+  <title>Log in · Cleanly AI</title>
+  <meta name="description" content="Log in to Cleanly AI to clean your CSV contact lists." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/theme.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+
+<body class="login-body">
+  <main class="login-shell">
+    <a class="login-back" href="/">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3 5 8l5 5" />
+      </svg>
+      Back to homepage
+    </a>
+
+    <div class="card login-card">
+      <div class="login-head">
+        <span class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.5 9.5 17 19 7" />
+            </svg>
+          </span>
+          Cleanly AI
+        </span>
+
+        <h1>Log in or create an account</h1>
+        <p>Use the same email you use at checkout so your plan is recognised.</p>
+      </div>
+
+      <button class="btn btn-ghost btn-block btn-lg" id="googleBtn" type="button">
+        <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.54 5.54 0 0 1-2.4 3.63v3h3.87c2.26-2.09 3.56-5.17 3.56-8.87z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.94-2.91l-3.87-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.28v3.09A12 12 0 0 0 12 24z"/>
+          <path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.28a12 12 0 0 0 0 10.76z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.43-3.43C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.28 6.62l3.99 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="divider">OR</div>
+
+      <div class="field">
+        <label for="emailInput">Email address</label>
+        <input
+          class="input"
+          id="emailInput"
+          type="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          spellcheck="false"
+          placeholder="you@company.com"
+          aria-describedby="formMsg"
+        />
+      </div>
+
+      <button class="btn btn-primary btn-block btn-lg" id="emailBtn" type="button" style="margin-top:14px;">
+        Send login link
+      </button>
+
+      <p class="form-msg" id="formMsg" role="status" aria-live="polite" hidden></p>
+
+      <p class="login-fine">
+        We'll email you a one-time link — no password to remember.<br />
+        By continuing you agree to our
+        <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.
+      </p>
+    </div>
+  </main>
+
+  <script src="/assets/vendor/supabase-js-2.45.4.js"></script>
+  <script src="/assets/js/env.js"></script>
+  <script type="module" src="/assets/js/login.js"></script>
+</body>
+</html>

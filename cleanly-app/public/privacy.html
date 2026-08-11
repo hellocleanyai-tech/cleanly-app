@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <title>Privacy Policy · Cleanly AI</title>
+  <meta name="description" content="How Cleanly AI collects, stores and processes your data." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/theme.css" />
+  <link rel="stylesheet" href="/assets/css/marketing.css" />
+</head>
+
+<body class="marketing">
+  <header class="site-nav is-stuck">
+    <div class="shell nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 9.5 17 19 7"/></svg>
+        </span>
+        Cleanly AI
+      </a>
+      <div class="nav-actions" style="margin-left:auto;">
+        <a class="btn btn-ghost btn-sm" href="/">Back to site</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell prose-page">
+    <article class="prose">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: 11 August 2026</p>
+
+      <p>
+        This policy explains what Cleanly AI collects, why, and what happens to the
+        contact lists you upload. <strong>This is a starting template — have it reviewed
+        by a lawyer before launch, particularly for GDPR, since you process personal
+        data belonging to third parties on your customers' behalf.</strong>
+      </p>
+
+      <h2>Who we are</h2>
+      <p>
+        Cleanly AI provides an automated CSV cleaning service. For the contact data inside
+        the files you upload, you are the data controller and we act as your data processor.
+      </p>
+
+      <h2>What we collect</h2>
+      <ul>
+        <li><strong>Account data</strong> — your email address, and your Google account identifier if you sign in with Google.</li>
+        <li><strong>Subscription data</strong> — your plan, status and billing period. Payments are handled by Lemon Squeezy; we never see or store your card details.</li>
+        <li><strong>Uploaded files</strong> — the CSV files you upload and the cleaned versions we produce.</li>
+        <li><strong>Usage data</strong> — upload counts and timestamps, used to enforce plan limits.</li>
+      </ul>
+
+      <h2>How uploaded files are handled</h2>
+      <p>
+        Files are stored in a private per-account folder, encrypted in transit and at rest.
+        Downloads use short-lived signed links that expire after ten minutes. Access is
+        restricted at the database level so no other customer can reach your files.
+        We do not sell, share or use your contact data to train models.
+      </p>
+
+      <h2>Processors we use</h2>
+      <ul>
+        <li><strong>Supabase</strong> — authentication, database and file storage.</li>
+        <li><strong>Lemon Squeezy</strong> — payments, subscriptions and invoicing (merchant of record).</li>
+        <li><strong>Netlify</strong> — website hosting and server functions.</li>
+      </ul>
+
+      <h2>Retention</h2>
+      <p>
+        Uploaded and cleaned files are retained while your account is active. Contact us to
+        delete specific files or your entire account, and we will remove your data within 30 days,
+        except where we must keep billing records for tax purposes.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Depending on where you live, you may have the right to access, correct, export or delete
+        your personal data, and to object to processing. Email us to exercise any of these rights.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a id="supportLink" href="mailto:support@cleanly.ai">support@cleanly.ai</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/login">Log in</a>
+        <a href="/terms">Terms</a>
+      </nav>
+      <p class="footer-legal">© <span id="year">2026</span> Cleanly AI. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/env.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    var email = (window.__CLEANLY_ENV__ || {}).SUPPORT_EMAIL;
+    if (email) {
+      var link = document.getElementById("supportLink");
+      link.href = "mailto:" + email;
+      link.textContent = email;
+    }
+  </script>
+</body>
+</html>
