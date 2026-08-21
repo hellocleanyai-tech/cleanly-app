@@ -606,7 +606,7 @@ async function downloadCleaned(button, cleanedPath, originalFilename) {
       .replace(/^files\//, "")
       .split("?")[0]
       .replace(/\r?\n|\r/g, "")
-      .replace(/\s+/g, "");
+     
 
     const { data, error } = await client.storage
       .from("files")
